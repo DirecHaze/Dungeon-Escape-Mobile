@@ -10,7 +10,7 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField]
     private Image[] _healthBarGraphic;
     [SerializeField]
-    private Text _gemCount;
+    private Text _gemCount, _gameOverHint, _gameOver;
     public override void init()
     {
         base.init();
@@ -43,7 +43,28 @@ public class UiManager : MonoSingleton<UiManager>
             }
         }
     }
-    
+    //When Player fell in hole
+    public void HealthRemove()
+    {
+        _healthBarGraphic[0].enabled = false;
+        _healthBarGraphic[1].enabled = false;
+        _healthBarGraphic[2].enabled = false;
+        _healthBarGraphic[3].enabled = false;
+    }
+    public void GameOverHint()
+    {
+        _gameOverHint.text = "You need to get a key there a stranger you can get it from";
+        Invoke("HideGameOverHint", 2f);
+    }
+    public void HideGameOverHint()
+    {
+        _gameOverHint.text = "";
+        
+    }
+    public void GameOver()
+    {
+        _gameOver.text = "Demo Over";
+    }
 
 
 

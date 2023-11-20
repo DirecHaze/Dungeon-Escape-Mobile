@@ -5,6 +5,11 @@ using UnityEngine;
 public class Diamond : MonoBehaviour
 {
     public int _value;
+   
+    private void Start()
+    {
+        gameObject.transform.parent = GameObject.Find("Floor").transform;
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Player")

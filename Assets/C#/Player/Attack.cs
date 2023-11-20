@@ -13,7 +13,7 @@ public class Attack : MonoBehaviour
         {
             if (_canBeAttack == true)
             {
-                TargetHit.Damage();
+                TargetHit.Damage(1);
                 StartCoroutine(AttackAgain());
                 
             }

@@ -41,7 +41,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         Movement();
         CheckPlayerIsNear();
         Health = DamageableHealth;
-        PlayerDirections = PlayerObject.transform.position - transform.position;
+        if (PlayerObject != null)
+        {
+            PlayerDirections = PlayerObject.transform.position - transform.position;
+        }
         
     }
    
@@ -89,60 +92,62 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         Vector3 facing = transform.localEulerAngles;
         //Check If Player Is Near
-
-        if (Vector3.Distance(transform.position, PlayerObject.transform.position) <= Range)
+        if (PlayerObject != null)
         {
-
-            if (facing.y == 0)
+            if (Vector3.Distance(transform.position, PlayerObject.transform.position) <= Range)
             {
-                _move = false;
-                Anim.SetBool("InCombat", true);
 
-                if (PlayerDirections.x >= 0)
+                if (facing.y == 0)
                 {
+                    _move = false;
+                    Anim.SetBool("InCombat", true);
+
+                    if (PlayerDirections.x >= 0)
+                    {
 
 
-                    transform.localEulerAngles = new Vector3(0, 0, 0);
-                    _goBack = false;
+                        transform.localEulerAngles = new Vector3(0, 0, 0);
+                        _goBack = false;
+                    }
+                    else
+                    {
+
+                        transform.localEulerAngles = new Vector3(0, 180, 0);
+                        _goBack = true;
+                    }
                 }
                 else
                 {
 
-                    transform.localEulerAngles = new Vector3(0, 180, 0);
-                    _goBack = true;
+                    _move = false;
+                    Anim.SetBool("InCombat", true);
+
+                    if (PlayerDirections.x >= 0)
+                    {
+
+                        transform.localEulerAngles = new Vector3(0, 0, 0);
+                        _goBack = false;
+                    }
+                    else
+                    {
+
+                        transform.localEulerAngles = new Vector3(0, 180, 0);
+                        _goBack = true;
+                    }
                 }
+
+
             }
             else
             {
+                Anim.SetBool("InCombat", false);
+                _move = true;
 
-                _move = false;
-                Anim.SetBool("InCombat", true);
-
-                if (PlayerDirections.x >= 0)
-                {
-
-                    transform.localEulerAngles = new Vector3(0, 0, 0);
-                    _goBack = false;
-                }
-                else
-                {
-
-                    transform.localEulerAngles = new Vector3(0, 180, 0);
-                    _goBack = true;
-                }
             }
-
-
-        }
-        else
-        {
-            Anim.SetBool("InCombat", false);
-            _move = true;
-           
         }
     }
 
-    public void Damage()
+    public void Damage(int Damage)
     {
        
        
@@ -159,11 +164,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             _goBack = true;
         }
 
-        DamageableHealth -= 1;
+        DamageableHealth -= Damage;
        
         Anim.SetTrigger("Hit");
         Anim.SetBool("InCombat", true);
-        if(DamageableHealth < 1)
+        if(DamageableHealth == 0)
         {
             Death();
         }

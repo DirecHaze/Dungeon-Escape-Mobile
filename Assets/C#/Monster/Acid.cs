@@ -19,9 +19,9 @@ public class Acid : MonoBehaviour , IDamageable
     {
         transform.Translate( Vector3.right * _speed * Time.deltaTime);
     }
-    public void Damage()
+    public void Damage(int Damage)
     {
-        DamageableHealth -= 1;
+        DamageableHealth -= Damage;
         if (DamageableHealth == 0)
         {
             Debug.Log("kcon");
